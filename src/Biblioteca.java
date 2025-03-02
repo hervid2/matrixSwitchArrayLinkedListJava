@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -13,33 +12,33 @@ class Libro {
     private String autor;
     private boolean prestado;
 
-    public Libro(String titulo, String autor) {
+    public Libro(String titulo, String autor) { //metodo constructor que recibe titulo, autor y estado como un objeto
         this.titulo = titulo;
         this.autor = autor;
-        this.prestado = false;
+        this.prestado = false; 
     }
 
-    public String getTitulo() { //método para devolver el titulo 
+    public String getTitulo() { //método para almarcenar y devolver el titulo 
         return titulo;
     }
 
-    public String getAutor() {//metodo para 
+    public String getAutor() {//metodo para almacenar y devolver el autor
         return autor;
     }
 
-    public boolean isPrestado() {
+    public boolean isPrestado() { //método con boolean para determinar si el libro está prestado o no. 
         return prestado;
     }
 
     public void prestar() {
-        if (!prestado) {
+        if (!prestado) {//método con condicional para mostrar si el libro ya está prestado 
             prestado = true;
         } else {
             System.out.println("El libro ya está prestado.");
         }
     }
 
-    public void devolver() {
+    public void devolver() { // método con condicional para mostrar si el libro no está prestado
         if (prestado) {
             prestado = false;
         } else {
@@ -48,34 +47,33 @@ class Libro {
     }
 
     
-    public String toString() {
-        return titulo + " - " + autor + " (" + (prestado ? "Prestado" : "Disponible") + ")";
+    public String toString() {//método que retorna la descripcioón del título, autor y estado del préstamo para mostrar
+        return titulo + " - " + autor + " (" + (prestado ? "Prestado" : "Disponible") + ")"; //Operador terniario que determina el estado del libro
     }
 }
 
-// Clase gestionBiblioteca
-class gestionBiblioteca {
-    private List<Libro> libros;
 
+class gestionBiblioteca { //clase que maneja la lógica de los procesos en la biblioteca de almacenar y gestionar libros
+    private List<Libro> libros; //lista dinámica para almacenar TODOS los libros, incluyendo sub arrayList "prestados" y "disponibles"
     public gestionBiblioteca() {
-        libros = new ArrayList<>();
+        libros = new ArrayList<>(); //Constructor que inicializa libros como un ArrayList.
     }
 
-    public void agregarLibro(Libro libro) {
-        libros.add(libro);
+    public void agregarLibro(Libro libro) { //método que agrega un objeto del tipo "Libro" A la lista de libros
+        libros.add(libro); //método del arrayList que agrega un libro nuevo a "libros"
     }
 
-    public void prestarLibro(String titulo) {
-        for (Libro libro : libros) {
-            if (libro.getTitulo().equals(titulo)) {
-                libro.prestar();
-                return;
+    public void prestarLibro(String titulo) {//Método que busca un libro en la lista de libros y si lo encuentra lo marca como prestado
+        for (Libro libro : libros) {//For each que  que usa el objeto Libro creado en la clase Libro instanciado como "libro" y alojado el arrayList "libros"
+            if (libro.getTitulo().equals(titulo)) {  //si el nombre del libro que se introduce el la consulta por el usuario es igual al almacenado en la lista, pasa a ser evaluado  por prestar()
+                libro.prestar(); //entonces libro, es evaluado por el método de la clase libro prestar() y determina si se puede prestar o no
+                return;  //finaliza el for apenas encuentra el libro y lo presta
             }
         }
         System.out.println("Libro no encontrado.");
     }
 
-    public void devolverLibro(String titulo) {
+    public void devolverLibro(String titulo) { //Método que busca un libro por título y lo devuelve.
         for (Libro libro : libros) {
             if (libro.getTitulo().equals(titulo)) {
                 libro.devolver();
@@ -85,29 +83,26 @@ class gestionBiblioteca {
         System.out.println("Libro no encontrado.");
     }
 
-    public List<Libro> getLibrosDisponibles() {
-        List<Libro> disponibles = new ArrayList<>();
+    public List<Libro> getLibrosDisponibles() { //Método que retorna una lista de libros que no están prestados.
+        List<Libro> disponibles = new ArrayList<>(); //Se inicializa un nuevo arrayList para almacenar libros disponibles
         for (Libro libro : libros) {
             if (!libro.isPrestado()) {
-                disponibles.add(libro);
+                disponibles.add(libro);//evalua si el libro no está prestado y lo mantiene o añade en "disponibles"
             }
         }
-        return disponibles;
+        return disponibles; //retorna "disponibles" que contiene solo los libros disponibles
     }
 
-    public List<Libro> getLibrosPrestados() {
+    public List<Libro> getLibrosPrestados() { //Método que retorna una lista de libros prestados
         List<Libro> prestados = new ArrayList<>();
         for (Libro libro : libros) {
             if (libro.isPrestado()) {
                 prestados.add(libro);
             }
         }
-        return prestados;
+        return prestados;  //retorna "prestados" que contiene solo los libros prestados
     }
 
-    public List<Libro> getTodosLosLibros() {
-        return libros;
-    }
 }
 
 // Clase Biblioteca (Interfaz gráfica)
@@ -115,10 +110,10 @@ public class Biblioteca extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private gestionBiblioteca biblioteca;
-    private JList<String> listDisponibles;
-    private JList<String> listPrestados;
-    private DefaultListModel<String> modelDisponibles;
+    private gestionBiblioteca biblioteca; //nueva instancia de la clase "gestionBiblioteca"
+    private JList<String> listDisponibles;  //espacio en la GUI para visualizar los libros disponibles
+    private JList<String> listPrestados;  //espacion el la GUI para visualizar los libros prestados
+    private DefaultListModel<String> modelDisponibles; //DefaultListModel<String>, que es una estructura de datos dinámica para almacenar y gestionar elementos de una lista en Swing.
     private DefaultListModel<String> modelPrestados;
 
     public static void main(String[] args) {
@@ -134,8 +129,8 @@ public class Biblioteca extends JFrame {
         });
     }
 
-    public Biblioteca() {
-        biblioteca = new gestionBiblioteca();
+    public Biblioteca() { 
+        biblioteca = new gestionBiblioteca(); //Inicializa la ventana y la instancia de gestionBiblioteca.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 791, 553);
         contentPane = new JPanel();
@@ -143,26 +138,26 @@ public class Biblioteca extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(); //Crea y configura el panel de contenido.
         panel.setBackground(new Color(0, 128, 255));
         panel.setBounds(10, 11, 765, 535);
         contentPane.add(panel);
         panel.setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Biblioteca");
+        JLabel lblNewLabel = new JLabel("Biblioteca"); //Crea un JLabel con el título "Biblioteca".
         lblNewLabel.setBounds(145, 31, 147, 49);
         lblNewLabel.setFont(new Font("Yu Gothic", Font.BOLD, 30));
         panel.add(lblNewLabel);
 
-        // Lista de libros disponibles con JScrollPane
-        modelDisponibles = new DefaultListModel<>();
-        JScrollPane scrollPaneDisponibles = new JScrollPane();
+        
+        modelDisponibles = new DefaultListModel<>();  //DefaultListModel<> permite agregar, eliminar y modificar elementos fácilmente sin necesidad de actualizar manualmente la interfaz gráfica.
+        JScrollPane scrollPaneDisponibles = new JScrollPane();// Lista de libros disponibles con JScrollPane
         scrollPaneDisponibles.setBounds(39, 170, 310, 238);
         panel.add(scrollPaneDisponibles);
 
-        // Lista de libros prestados con JScrollPane
-        modelPrestados = new DefaultListModel<>();
-        JScrollPane scrollPanePrestados = new JScrollPane();
+       
+        modelPrestados = new DefaultListModel<>(); 
+        JScrollPane scrollPanePrestados = new JScrollPane();  // Lista de libros prestados con JScrollPane que es un contenedor con barras de desplazamiento
         scrollPanePrestados.setBounds(387, 170, 328, 238);
         panel.add(scrollPanePrestados);
 
@@ -186,9 +181,9 @@ public class Biblioteca extends JFrame {
         btnNewButton.setFont(new Font("Yu Gothic", Font.BOLD, 11));
         btnNewButton.setBounds(68, 419, 107, 49);
         btnNewButton.addActionListener(new ActionListener() {
-            @Override
+           
             public void actionPerformed(ActionEvent e) {
-                agregarLibro();
+                agregarLibro(); //ejecuta el método de la clase "gestionBiblioteca" al presionar el botón
             }
         });
         panel.add(btnNewButton);
@@ -215,22 +210,22 @@ public class Biblioteca extends JFrame {
                 devolverLibro();
             }
         });
-        panel.add(btnNewButton_2);
-        listPrestados = new JList<>(modelPrestados);
+        panel.add(btnNewButton_2);  //agregar boton a la GUI
+        listPrestados = new JList<>(modelPrestados); //Mostras las listas de libros en la GUI valiendose del objeto modelPrestados
         listPrestados.setBounds(387, 171, 328, 236);
         panel.add(listPrestados);
-        listDisponibles = new JList<>(modelDisponibles);
+        listDisponibles = new JList<>(modelDisponibles); //se agrega el JList al panel del GUI con el modelo DefaultListModel, que convierte la lista en algo dinámico
         listDisponibles.setBounds(39, 170, 310, 236);
         panel.add(listDisponibles);
     }
 
     // Método para agregar un libro
     private void agregarLibro() {
-        String titulo = JOptionPane.showInputDialog(this, "Ingrese el título del libro:");
-        String autor = JOptionPane.showInputDialog(this, "Ingrese el autor del libro:");
+        String titulo = JOptionPane.showInputDialog(this, "Ingrese el título del libro:"); //Muestra un cuadro de diálogo emergente donde el usuario debe escribir el título del libro.
+        String autor = JOptionPane.showInputDialog(this, "Ingrese el autor del libro:"); //this, se refiere a la instancia de Biblioteca, que en sí es el frame de la GUI, lo cual asocia el cuadro de diálogo a la vantana principal
         if (titulo != null && autor != null) {
-            biblioteca.agregarLibro(new Libro(titulo, autor));
-            actualizarListas();
+            biblioteca.agregarLibro(new Libro(titulo, autor)); //se llama al método agregarLibro(Libro, libro) de la clase gestionBiblioteca instanciada dentro de esa clase como "biblioteca"
+            actualizarListas(); //se llama al método actualizarListas() creado mas abajo
         }
     }
 
@@ -254,12 +249,12 @@ public class Biblioteca extends JFrame {
 
     // Método para actualizar las listas de libros disponibles y prestados
     private void actualizarListas() {
-        modelDisponibles.clear();
-        modelPrestados.clear();
+        modelDisponibles.clear(); //Si no se vacía, al agregar nuevos elementos se duplicarían los libros en la interfaz.
+        modelPrestados.clear(); //Borra la lista gráfica de libros disponibles.
 
-        for (Libro libro : biblioteca.getLibrosDisponibles()) {
-            modelDisponibles.addElement(libro.toString());
-        }
+        for (Libro libro : biblioteca.getLibrosDisponibles()) { //Obtiene los libros disponibles de gestionBiblioteca.
+            modelDisponibles.addElement(libro.toString()); //Convierte el objeto Libro en un String usando su método toString().
+        }// Lo agrega a modelDisponibles, el cual está vinculado a JList<String> listDisponibles.
 
         for (Libro libro : biblioteca.getLibrosPrestados()) {
             modelPrestados.addElement(libro.toString());
